@@ -28,6 +28,7 @@
 }
 
 - (void)setAutoLayoutConstraints {
+    //Should review this logic
     //[self.view removeConstraints:self.view.constraints];
     
     //Top Bar View
