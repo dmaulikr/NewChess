@@ -147,9 +147,6 @@
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat deviceWidth = screenRect.size.width;
     
-    self.layer.borderWidth = 1.0f;
-    self.layer.borderColor = [UIColor blueColor].CGColor;
-    
     //[self.view removeConstraints:self.view.constraints];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.view
                                                      attribute:NSLayoutAttributeLeading
@@ -178,12 +175,7 @@
                                                         toItem:nil
                                                      attribute:NSLayoutAttributeNotAnAttribute
                                                     multiplier:1.0
-                                                      constant:self.frame.size.width]];
-    
-    self.view.layer.borderWidth = 1.0f;
-    self.view.layer.borderColor = [UIColor blackColor].CGColor;
-    
-    NSLog(@"self.view frame is %@",self.view);
+                                                      constant:self.frame.size.height]];
     
     for(int i=0; i<8; i++){
         NSArray *boardButtonArray = [self.chessBoardButtonArray objectAtIndex:i];
@@ -191,28 +183,28 @@
         for(int j=0; j<8; j++){
             UIButton *boardButton = [boardButtonArray objectAtIndex:j];
             float buttonWidth = deviceWidth / 8;
-            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:boardButton
+            [self addConstraint:[NSLayoutConstraint constraintWithItem:boardButton
                                                              attribute:NSLayoutAttributeLeading
                                                              relatedBy:NSLayoutRelationEqual
                                                                 toItem:self.view
                                                              attribute:NSLayoutAttributeLeading
                                                             multiplier:1.0
                                                               constant:j * buttonWidth]];
-            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:boardButton
+            [self addConstraint:[NSLayoutConstraint constraintWithItem:boardButton
                                                              attribute:NSLayoutAttributeTop
                                                              relatedBy:NSLayoutRelationEqual
                                                                 toItem:self.view
                                                              attribute:NSLayoutAttributeTop
                                                             multiplier:1.0
                                                               constant:i * buttonWidth]];
-            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
+            [self addConstraint:[NSLayoutConstraint constraintWithItem:self.view
                                                              attribute:NSLayoutAttributeWidth
                                                              relatedBy:NSLayoutRelationEqual
                                                                 toItem:nil
                                                              attribute:NSLayoutAttributeNotAnAttribute
                                                             multiplier:1.0
                                                               constant:buttonWidth]];
-            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
+            [self addConstraint:[NSLayoutConstraint constraintWithItem:self.view
                                                              attribute:NSLayoutAttributeHeight
                                                              relatedBy:NSLayoutRelationEqual
                                                                 toItem:nil
@@ -223,6 +215,10 @@
             [boardButton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
             boardButton.tag = (i * 10) + j;
             //NSLog(@"tag is %ld",(long)boardButton.tag);
+            
+            boardButton.layer.borderWidth = 1.0f;
+            boardButton.layer.borderColor = [UIColor greenColor].CGColor;
+            
             NSString *chessPiece = [chessPieceArray objectAtIndex:j];
             if(i % 2 == 0){
                 if(j % 2 == 0){
@@ -289,7 +285,6 @@
                 [boardButton setBackgroundImage:[UIImage imageNamed:[chessPiecesImageArray objectAtIndex:11]] forState:UIControlStateNormal];
                 [boardButton setAccessibilityIdentifier:[chessPiecesImageArray objectAtIndex:11]];
             }
-            
         }
     }
 }
@@ -300,10 +295,10 @@
 {
     colorAssignedToPlayer = colorAssigned;
     chessBoardType = boardType;
-    if(boardType == Normal){
+    if(chessBoardType == Normal){
         chessPiecesImageArray = normalChessPiecesImageArray;
     }
-    else if(boardType == Wooden){
+    else if(chessBoardType == Wooden){
         chessPiecesImageArray = woodenChessPiecesImageArray;
     }
 }
